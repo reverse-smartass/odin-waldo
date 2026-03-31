@@ -39,6 +39,8 @@ export default function ImageGridOverlay() {
     const now = Date.now();
     const gap = lastClickTime.current ? now - lastClickTime.current : null;
     lastClickTime.current = now;
+    setElapsed(0);
+    startTick();
     const entry = {
       id: now, row, col,
       cell: `R${row}:C${col}`, gap,
@@ -129,7 +131,6 @@ export default function ImageGridOverlay() {
             style={{ width: 200, padding: "4px 8px", fontSize: 12, background: "rgba(255,255,255,0.07)", border: "0.5px solid rgba(255,255,255,0.2)", borderRadius: 6, color: "#fff" }} />
           <button onClick={handleImageUrl} style={{ padding: "4px 10px", fontSize: 12, background: "rgba(255,255,255,0.1)", border: "0.5px solid rgba(255,255,255,0.25)", borderRadius: 6, color: "#fff", cursor: "pointer" }}>Load</button>
           <button onClick={() => fileInputRef.current?.click()} style={{ padding: "4px 10px", fontSize: 12, background: "rgba(255,255,255,0.08)", border: "0.5px solid rgba(255,255,255,0.18)", borderRadius: 6, color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>Upload</button>
-          <button onClick={startTick} style={{ padding: "4px 10px", fontSize: 12, background: "rgba(255,255,255,0.08)", border: "0.5px solid rgba(255,255,255,0.18)", borderRadius: 6, color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>Start</button>
           <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handleFile} />
         </div>
         <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
