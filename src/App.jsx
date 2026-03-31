@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-
+import "./App.css";
 const DEFAULT_COLS = 8;
 const DEFAULT_ROWS = 5;
 const SAMPLE_IMAGE = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80";
@@ -96,21 +96,19 @@ export default function ImageGridOverlay() {
       const key = `${r}-${c}`;
       const isHovered = hoveredCell === key;
       cells.push(
-        <div key={key} onClick={() => handleCellClick(r, c)}
-          onMouseEnter={() => setHoveredCell(key)} onMouseLeave={() => setHoveredCell(null)}
-          style={{ boxSizing: "border-box", border: "1px solid rgba(255,255,255,0.35)", cursor: "crosshair", display: "flex", alignItems: "center", justifyContent: "center", background: isHovered ? "rgba(255,255,255,0.18)" : "transparent", transition: "background 0.1s", position: "relative" }}>
-          {isHovered && (
-            <span style={{ fontSize: 11, fontWeight: 500, color: "#fff", background: "rgba(0,0,0,0.55)", padding: "2px 6px", borderRadius: 4, pointerEvents: "none", whiteSpace: "nowrap", letterSpacing: "0.03em" }}>
-              R{r}:C{c}
-            </span>
-          )}
+        <div key={key} 
+          className="grid-cell"
+          onClick={() => handleCellClick(r, c)}
+          onMouseEnter={() => setHoveredCell(key)} 
+          onMouseLeave={() => setHoveredCell(null)}>
+          {isHovered && <span className="cell-tooltip">R{r}:C{c}</span>}
         </div>
       );
     }
   }
 
   return (
-    <div style={{ fontFamily: "var(--font-sans, 'Courier New', monospace)", minHeight: "100vh", background: "#0a0a0a", display: "flex", flexDirection: "column" }}>
+    <div className="grid-container">
 
       {/* Controls bar */}
       <div style={{ position: "relative", zIndex: 10, background: "rgba(10,10,10,0.92)", borderBottom: "0.5px solid rgba(255,255,255,0.12)", padding: "10px 16px", display: "flex", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
