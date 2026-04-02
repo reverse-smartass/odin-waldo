@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/generated/prisma
+.env
+test-db.js
+manual-query.ts
