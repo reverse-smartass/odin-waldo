@@ -1,6 +1,6 @@
 /* Layout & Base */
 .grid-container {
-  font-family: var(--font-sans, 'Courier New', monospace);
+  font-family: var(--font-sans, "Courier New", monospace);
   min-height: 100vh;
   background: #0a0a0a;
   display: flex;
@@ -11,8 +11,8 @@
 .controls-bar {
   position: relative;
   z-index: 10;
-  background: rgba(10,10,10,0.92);
-  border-bottom: 0.5px solid rgba(255,255,255,0.12);
+  background: rgba(10, 10, 10, 0.92);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);
   padding: 10px 16px;
   display: flex;
   align-items: center;
@@ -28,15 +28,15 @@
 
 .control-label {
   font-size: 12px;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .input-num {
   width: 52px;
   padding: 4px 6px;
   font-size: 13px;
-  background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.07);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   color: #fff;
   text-align: center;
@@ -46,8 +46,8 @@
   width: 200px;
   padding: 4px 8px;
   font-size: 12px;
-  background: rgba(255,255,255,0.07);
-  border: 0.5px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.07);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   color: #fff;
 }
@@ -56,8 +56,8 @@
   padding: 4px 12px;
   font-size: 12px;
   font-weight: 500;
-  background: rgba(255,255,255,0.1);
-  border: 0.5px solid rgba(255,255,255,0.25);
+  background: rgba(255, 255, 255, 0.1);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
   border-radius: 6px;
   color: #fff;
   cursor: pointer;
@@ -66,24 +66,24 @@
 .btn-secondary {
   padding: 4px 10px;
   font-size: 12px;
-  background: rgba(255,255,255,0.08);
-  border: 0.5px solid rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
   border-radius: 6px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
 }
 
 .divider {
   width: 0.5px;
   height: 24px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* Image & Grid Area */
 .viewport-wrapper {
   position: relative;
   width: 100%;
-  flex: 0 1 auto; 
+  flex: 0 1 auto;
   margin: 0 auto;
 }
 
@@ -104,7 +104,7 @@
 
 .grid-cell {
   box-sizing: border-box;
-  border: 1px solid rgba(255,255,255,0.35);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   cursor: crosshair;
   display: flex;
   align-items: center;
@@ -114,14 +114,15 @@
 }
 
 .grid-cell:hover {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .cell-tooltip {
+  position: absolute;
   font-size: 11px;
   font-weight: 500;
   color: #fff;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   padding: 2px 6px;
   border-radius: 4px;
   pointer-events: none;
@@ -131,8 +132,8 @@
 
 /* Log Panel */
 .log-panel {
-  background: rgba(10,10,10,0.95);
-  border-top: 0.5px solid rgba(255,255,255,0.1);
+  background: rgba(10, 10, 10, 0.95);
+  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
   padding: 12px 16px;
   margin-bottom: 20px;
 }
@@ -159,7 +160,7 @@
 
 .stat-label {
   font-size: 10px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255, 255, 255, 0.3);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -176,16 +177,18 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px 8px;
-  max-height: 90px;
+  max-height: 150px;
   overflow-y: auto;
+  margin: 10px 0;
+  padding: 10px 0;
 }
 
 .log-bubble {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255,255,255,0.04);
-  border: 0.5px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   padding: 3px 10px;
   font-size: 12px;
@@ -193,6 +196,6 @@
 }
 
 .log-bubble.latest {
-  background: rgba(255,255,255,0.09);
-  border-color: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
 }

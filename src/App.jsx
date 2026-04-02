@@ -35,14 +35,15 @@ export default function ImageGridOverlay() {
   const startTick = () => {
     if (tickRef.current) clearInterval(tickRef.current);
     tickRef.current = setInterval(() => {
-    if (lastClickTime.current) setElapsed(Date.now()-firstClickTime.current);
+      if (lastClickTime.current)
+        setElapsed(Date.now() - firstClickTime.current);
     }, 50);
   };
 
   const handleCellClick = useCallback((row, col) => {
     const now = Date.now();
     const gap = lastClickTime.current ? now - lastClickTime.current : null;
-    if(lastClickTime.current === null) firstClickTime.current = now;
+    if (lastClickTime.current === null) firstClickTime.current = now;
     lastClickTime.current = now;
     //setElapsed(0);
     startTick();
@@ -131,6 +132,62 @@ export default function ImageGridOverlay() {
   return (
     <div className="grid-container">
       {/* Controls bar */}
+      <ControlsBar
+        cols={cols}
+        rows={rows}
+        colsInput={colsInput}
+        rowsInput={rowsInput}
+        setColsInput={setColsInput}
+        setRowsInput={setRowsInput}
+        applyDims={applyDims}
+        imageInputVal={imageInputVal}
+        setImageInputVal={setImageInputVal}
+        handleImageUrl={handleImageUrl}
+        fileInputRef={fileInputRef}
+        handleFile={handleFile}
+        clickLog={clickLog}
+        showLog={showLog}
+        setShowLog={setShowLog}
+        handleClear={handleClear}
+      />
+
+      {/* Image + Grid */}
+      <ImageGrid cols={cols} rows={rows} imageUrl={imageUrl} cells={cells} />
+
+      {/* Log panel */}
+      <LogPanel
+        clickLog={clickLog}
+        elapsed={elapsed}
+        avgGap={avgGap}
+        fastestGap={fastestGap}
+        showLog={showLog}
+        formatMs={formatMs}
+        gapColor={gapColor}
+      />
+    </div>
+  );
+}
+
+function ControlsBar({
+  cols,
+  rows,
+  colsInput,
+  rowsInput,
+  setColsInput,
+  setRowsInput,
+  applyDims,
+  imageInputVal,
+  setImageInputVal,
+  handleImageUrl,
+  fileInputRef,
+  handleFile,
+  clickLog,
+  showLog,
+  setShowLog,
+  handleClear,
+}) {
+  return (
+    <>
       <div className="controls-bar">
         <span className="stat-label" style={{ marginRight: 4 }}>
           Grid
@@ -177,9 +234,7 @@ export default function ImageGridOverlay() {
           >
             Upload
           </button>
-          <button onClick={startTick} className="btn-primary">
-            Start
-          </button>
+
           <input
             ref={fileInputRef}
             type="file"
@@ -231,177 +286,205 @@ export default function ImageGridOverlay() {
           )}
         </div>
       </div>
+    </>
+  );
+}
 
-      {/* Image + Grid */}
-      <div className="viewport-wrapper">
-        <img src={imageUrl} alt="backdrop" className="backdrop-img" draggable={false} />
-        <div className="overlay-grid" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)` }}>
-          {cells}
-        </div>
+function ImageGrid({ cols, rows, imageUrl, cells }) {
+  return (
+    <div className="viewport-wrapper">
+      <img
+        src={imageUrl}
+        alt="backdrop"
+        className="backdrop-img"
+        draggable={false}
+      />
+      <div
+        className="overlay-grid"
+        style={{
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
+          gridTemplateRows: `repeat(${rows}, 1fr)`,
+        }}
+      >
+        {cells}
       </div>
+    </div>
+  );
+}
 
-      {/* Log panel */}
-      {showLog && (
-        <div className="log-panel">
-          
-          {/* Timer stats */}
-          <div className="stats-row">
-            {[
-              {
-                label: "since last click",
-                value: elapsed !== null ? formatMs(elapsed) : "—",
-                color:
-                  elapsed !== null
-                    ? gapColor(elapsed)
-                    : "rgba(255,255,255,0.2)",
-              },
-              {
-                label: "last gap",
-                value:
-                  clickLog[0]?.gap != null ? formatMs(clickLog[0].gap) : "—",
-                color:
-                  clickLog[0]?.gap != null
-                    ? gapColor(clickLog[0].gap)
-                    : "rgba(255,255,255,0.2)",
-              },
-              {
-                label: "avg gap",
-                value: avgGap != null ? formatMs(avgGap) : "—",
-                color:
-                  avgGap != null ? gapColor(avgGap) : "rgba(255,255,255,0.2)",
-              },
-              {
-                label: "fastest",
-                value: fastestGap != null ? formatMs(fastestGap) : "—",
-                color: fastestGap != null ? "#4ade80" : "rgba(255,255,255,0.2)",
-              },
-              {
-                label: "total clicks",
-                value: String(clickLog.length),
-                color: "rgba(255,255,255,0.7)",
-              },
-            ].map(({ label, value, color }, i, arr) => (
-              <div key={label} className="stat-item">
-                <div className="stat-content">
-                  <span className="stat-label">{label}</span>
-                  <span className="stat-value" style={{ color }}>{value}</span>
-                </div>
-                {i < arr.length - 1 && (
-                  <div
-                    style={{
-                      width: "0.5px",
-                      height: 32,
-                      background: "rgba(255,255,255,0.1)",
-                    }}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+function LogPanel({
+  clickLog,
+  elapsed,
+  avgGap,
+  fastestGap,
+  showLog,
+  formatMs,
+  gapColor,
+}) {
+  if (!showLog) return null;
+  return (
+    <div className="log-panel">
+      {/* Timer stats */}
+      <LogTimerStats
+        elapsed={elapsed}
+        avgGap={avgGap}
+        fastestGap={fastestGap}
+        formatMs={formatMs}
+        gapColor={gapColor}
+        clickLog={clickLog}
+      />
 
-          {/* Legend */}
-          <div style={{ display: "flex", gap: 12, marginBottom: 8 }}>
-            {[
-              ["#4ade80", "< 800ms"],
-              ["#fbbf24", "< 2s"],
-              ["#f87171", "≥ 2s"],
-            ].map(([color, label]) => (
-              <div
-                key={label}
-                style={{ display: "flex", alignItems: "center", gap: 4 }}
-              >
-                <div
-                  style={{
-                    width: 7,
-                    height: 7,
-                    borderRadius: "50%",
-                    background: color,
-                  }}
-                />
-                <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)" }}>
-                  {label}
-                </span>
-              </div>
-            ))}
-          </div>
+      {/* Legend */}
+      <LogLegend />
 
-          {/* Entries */}
-          <div
-            style={{
-              fontSize: 11,
-              color: "rgba(255,255,255,0.3)",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              marginBottom: 6,
-            }}
-          >
-            click log
+      {/* Entries */}
+      <LogEntries clickLog={clickLog} formatMs={formatMs} gapColor={gapColor} />
+    </div>
+  );
+}
+
+function LogTimerStats({
+  elapsed,
+  avgGap,
+  fastestGap,
+  formatMs,
+  gapColor,
+  clickLog,
+}) {
+  return (
+    <div className="stats-row">
+      {[
+        {
+          label: "since last click",
+          value: elapsed !== null ? formatMs(elapsed) : "—",
+          color: elapsed !== null ? gapColor(elapsed) : "rgba(255,255,255,0.2)",
+        },
+        {
+          label: "last gap",
+          value: clickLog[0]?.gap != null ? formatMs(clickLog[0].gap) : "—",
+          color:
+            clickLog[0]?.gap != null
+              ? gapColor(clickLog[0].gap)
+              : "rgba(255,255,255,0.2)",
+        },
+        {
+          label: "avg gap",
+          value: avgGap != null ? formatMs(avgGap) : "—",
+          color: avgGap != null ? gapColor(avgGap) : "rgba(255,255,255,0.2)",
+        },
+        {
+          label: "fastest",
+          value: fastestGap != null ? formatMs(fastestGap) : "—",
+          color: fastestGap != null ? "#4ade80" : "rgba(255,255,255,0.2)",
+        },
+        {
+          label: "total clicks",
+          value: String(clickLog.length),
+          color: "rgba(255,255,255,0.7)",
+        },
+      ].map(({ label, value, color }, i, arr) => (
+        <div key={label} className="stat-item">
+          <div className="stat-content">
+            <span className="stat-label">{label}</span>
+            <span className="stat-value" style={{ color }}>
+              {value}
+            </span>
           </div>
-          {clickLog.length === 0 ? (
+          {i < arr.length - 1 && (
             <div
               style={{
-                fontSize: 13,
-                color: "rgba(255,255,255,0.2)",
-                fontStyle: "italic",
+                width: "0.5px",
+                height: 32,
+                background: "rgba(255,255,255,0.1)",
               }}
-            >
-              Click any cell to start timing.
-            </div>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "6px 8px",
-                maxHeight: 150,
-                overflowY: "auto",
-              }}
-            >
-              {clickLog.map((entry, i) => (
-                <div
-                  key={entry.id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 6,
-                    background:
-                      i === 0
-                        ? "rgba(255,255,255,0.09)"
-                        : "rgba(255,255,255,0.04)",
-                    border:
-                      i === 0
-                        ? "0.5px solid rgba(255,255,255,0.2)"
-                        : "0.5px solid rgba(255,255,255,0.08)",
-                    borderRadius: 6,
-                    padding: "3px 10px",
-                    fontSize: 12,
-                    fontVariantNumeric: "tabular-nums",
-                  }}
-                >
-                  <span
-                    style={{
-                      color: i === 0 ? "#fff" : "rgba(255,255,255,0.6)",
-                      fontWeight: i === 0 ? 500 : 400,
-                    }}
-                  >
-                    {entry.cell}
-                  </span>
-                  {entry.gap !== null && (
-                    <span style={{ color: gapColor(entry.gap), fontSize: 11 }}>
-                      +{formatMs(entry.gap)}
-                    </span>
-                  )}
-                  <span
-                    style={{ color: "rgba(255,255,255,0.25)", fontSize: 10 }}
-                  >
-                    {entry.time}
-                  </span>
-                </div>
-              ))}
-            </div>
+            />
           )}
         </div>
-      )}
+      ))}
     </div>
+  );
+}
+
+function LogLegend() {
+  return (
+    <div style={{ display: "flex", gap: 12, marginBottom: 8 }}>
+      {[
+        ["#4ade80", "< 800ms"],
+        ["#fbbf24", "< 2s"],
+        ["#f87171", "≥ 2s"],
+      ].map(([color, label]) => (
+        <div
+          key={label}
+          style={{ display: "flex", alignItems: "center", gap: 4 }}
+        >
+          <div
+            style={{
+              width: 7,
+              height: 7,
+              borderRadius: "50%",
+              background: color,
+            }}
+          />
+          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)" }}>
+            {label}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function LogEntries({ clickLog, formatMs, gapColor }) {
+  return (
+    <>
+      <div
+        style={{
+          fontSize: 11,
+          color: "rgba(255,255,255,0.3)",
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          marginBottom: 6,
+        }}
+      >
+        click log
+      </div>
+      {clickLog.length === 0 ? (
+        <div
+          style={{
+            fontSize: 13,
+            color: "rgba(255,255,255,0.2)",
+            fontStyle: "italic",
+          }}
+        >
+          Click any cell to start timing.
+        </div>
+      ) : (
+        <div className="log-entries">
+          {clickLog.map((entry, i) => (
+            <div
+              className={i === 0 ? "log-bubble latest" : "log-bubble"}
+              key={entry.id}
+            >
+              <span
+                style={{
+                  color: i === 0 ? "#fff" : "rgba(255,255,255,0.6)",
+                  fontWeight: i === 0 ? 500 : 400,
+                }}
+              >
+                {entry.cell}
+              </span>
+              {entry.gap !== null && (
+                <span style={{ color: gapColor(entry.gap), fontSize: 11 }}>
+                  +{formatMs(entry.gap)}
+                </span>
+              )}
+              <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 10 }}>
+                {entry.time}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
