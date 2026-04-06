@@ -1,0 +1,200 @@
+/* Container & Layout */
+.leaderboard-root {
+  min-height: 100vh;
+  background: #080808;
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  color: #e0e0e0;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+}
+
+.leaderboard-container {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 52px 24px 80px;
+}
+
+/* Typography */
+.section-label {
+  margin: 0 0 6px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+}
+
+.leaderboard-title {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: #fff;
+  line-height: 1;
+}
+
+.title-separator {
+  margin-top: 14px;
+  height: 0.5px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 48px;
+}
+
+/* Podium */
+.podium-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 44px;
+  align-items: flex-end;
+}
+
+.podium-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.podium-medal-label {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--medal-dim);
+  text-transform: uppercase;
+}
+
+.podium-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podium-time {
+  font-size: 12px;
+  color: var(--medal-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.podium-bar {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 2px solid var(--medal-color);
+  border-left: 0.5px solid var(--border-color);
+  border-right: 0.5px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--medal-color);
+  opacity: 0.6;
+}
+
+/* Controls */
+.controls-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 10px 8px 30px;
+  font-size: 12px;
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #fff;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.refresh-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+/* List/Rows */
+.list-header {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  padding: 6px 14px;
+  margin-bottom: 4px;
+}
+
+.header-cell {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.header-cell.align-right { text-align: right; }
+
+.table-wrapper {
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.status-box {
+  padding: 48px 16px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.row-container {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  padding: 13px 14px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.12s;
+}
+
+.row-rank { display: flex; align-items: center; gap: 6px; }
+.rank-symbol { font-size: 7px; line-height: 1; }
+.rank-num { font-variant-numeric: tabular-nums; }
+.row-user { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row-time { font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+.footer-count {
+  margin: 12px 0 0;
+  text-align: right;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.15);
+  letter-spacing: 0.1em;
+}

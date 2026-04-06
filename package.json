@@ -8,18 +8,21 @@
     "build": "vite build",
     "lint": "eslint .",
     "commit": "git add . && git commit -m \"commit\" && git push",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "watch": "node --watch src/api/routes.js"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^7.6.0",
     "@tailwindcss/vite": "^4.2.1",
     "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.0",
+    "express": "^5.2.1",
     "pg": "^8.20.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router": "^7.13.1",
+    "react-router": "^7.14.0",
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {

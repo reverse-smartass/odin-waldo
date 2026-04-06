@@ -14,10 +14,12 @@ datasource db {
 
 model Presets{
   id        String   @id @default(uuid())
+  presetName String @default("Preset")
   photoUrl  String
   nbRows    Int
   nbCols    Int
   Solutions Solution[]
+  records   Record[]
   createdAt DateTime @default(now())
 }
 
@@ -28,4 +30,12 @@ model Solution {
   row      Int
   col      Int
   photoUrl  String
+}
+
+model Record {
+  id        String   @id @default(uuid())
+  presetId  String
+  preset    Presets  @relation(fields: [presetId], references: [id])
+  time      Int
+  username  String
 }
