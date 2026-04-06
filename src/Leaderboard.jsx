@@ -68,7 +68,7 @@ export default function Leaderboard() {
       <div className="leaderboard-container">
         <div className="header-section">
           <button className="btn-primary">
-            <a href="./">Game</a>
+            <a href="./">Back to Game</a>
           </button>
           <p className="section-label">global rankings</p>
           <h1 className="leaderboard-title">LEADERBOARD</h1>
